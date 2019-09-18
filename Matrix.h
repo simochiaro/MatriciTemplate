@@ -22,7 +22,7 @@ public:
 
     }
 
-    Matrix (int m,int n, T* s):numRow(m),numCol(n){
+    Matrix (int m,int n, T s[]):numRow(m),numCol(n){
 
         buffer =new T[m*n];
 
@@ -44,7 +44,7 @@ public:
     }
 
 private:
-    void initMatrix(T* s){
+    void initMatrix(T s[]){
         for(int i=0;i<numRow;i++){
             for (int j=0;j<numCol;j++){
                 buffer[i*numCol+j]=s[i*numCol+j];
@@ -84,17 +84,17 @@ public:
         return col;
     }
 
-    Matrix<T>* trasposta(){
-        Matrix<T>* trasp=new Matrix<T>(numCol,numRow);
+    Matrix<T> trasposta(){
+        Matrix<T>* trasp=new Matrix<T>(this->numCol,this->numRow);
         for(int i=0;i<this->numCol;i++){
             for(int j=0;j<this->numRow;j++){
                 trasp->buffer[i*numCol+j]=this->buffer[j*numCol+i];
             }
         }
-        return trasp;
+        return *trasp;
     }
 
-     Matrix<T>* operator *(Matrix<T>* matrix){
+     Matrix<T> operator *(Matrix<T>* matrix){
         if(numCol!=matrix->numRow){
             throw std::invalid_argument("Matrix dimension not right to do product");
         }
@@ -109,11 +109,11 @@ public:
                 prod->buffer[i*numCol+j]=sum;
             }
         }
-        return prod;
+        return *prod;
 
     }
 
-    Matrix<T>* operator + (Matrix<T>* m1){
+    Matrix<T> operator + (Matrix<T>* m1){
         if(m1->numCol!=this->numCol || m1->numRow!= this->numRow)
             throw std::invalid_argument("Impossible to do sumMatrix");
         Matrix<T>* sum=new Matrix(numCol,numRow);
@@ -121,16 +121,16 @@ public:
             for(int j=0;j<numCol;j++)
                 sum->buffer[i*numCol+j]=this->buffer[i*numCol+j]+m1->buffer[i*numCol+j];
         }
-        return sum;
+        return *sum;
     }
 
-    Matrix<T>* operator* (T scalar){
+    Matrix<T> operator* (T scalar){
         Matrix<T>* s=new Matrix(numCol,numRow);
         for(int i=0;i<numRow;i++){
             for(int j=0;j<numCol;j++)
                 s->buffer[i*numCol+j]=(this->buffer[i*numCol+j])*scalar;
         }
-        return s;
+        return *s;
     }
 
     std::string printMatrix(){

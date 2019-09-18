@@ -70,15 +70,15 @@ TEST(Matrix5,trasposta){
     m->setValue(1,1,1);
     m->setValue(9,1,2);
 
-    Matrix<int>* t=m->trasposta();
+    Matrix<int> t=m->trasposta();
 
-    ASSERT_EQ(t->buffer[1],1);
-    ASSERT_EQ(t->buffer[3],5);
+    ASSERT_EQ(t.buffer[1],1);
+    ASSERT_EQ(t.buffer[3],5);
 }
 
 TEST(Matrix6, Product){
 
-    int* s =new int[6];
+    int s[6];
     s[0]=0;
     s[1]=1;
     s[2]=2;
@@ -89,20 +89,21 @@ TEST(Matrix6, Product){
     Matrix<int>* m=new Matrix<int>(2,3,s);
     Matrix<int>* t=new Matrix<int>(3,2,s);
 
-    Matrix<int>* w=m->operator*(t);
+    Matrix<int> w=m->operator*(t);
 
-    ASSERT_EQ(w->buffer[0],10);
-    ASSERT_EQ(w->buffer[1],13);
+    ASSERT_EQ(w.buffer[0],10);
+    ASSERT_EQ(w.buffer[1],13);
 
     Matrix<int>* x=new Matrix<int>(2,6);
     ASSERT_THROW(m->operator* (x),std::invalid_argument);
+
 
 
 }
 
 TEST(Matrix7, sumMatrix){
 
-    int* s =new int[6];
+    int s [6];
     s[0]=0;
     s[1]=1;
     s[2]=2;
@@ -115,10 +116,10 @@ TEST(Matrix7, sumMatrix){
 
 
 
-    Matrix<int>* g= m->operator+ (t);
+    Matrix<int> g= m->operator+ (t);
 
-    ASSERT_EQ(g->buffer[3],6);
-    ASSERT_EQ(g->buffer[2],4);
+    ASSERT_EQ(g.buffer[3],6);
+    ASSERT_EQ(g.buffer[2],4);
 
 
     Matrix<int>* w=new Matrix<int>(2,4);
@@ -128,7 +129,7 @@ TEST(Matrix7, sumMatrix){
 
 TEST(Matrix8, scalarProduct){
 
-    int* s =new int[6];
+    int s [6];
     s[0]=0;
     s[1]=1;
     s[2]=2;
@@ -137,12 +138,12 @@ TEST(Matrix8, scalarProduct){
     s[5]=5;
     Matrix<int>* m=new Matrix<int>(2,3,s);
 
-    Matrix<int>* t=m->operator*(7);
+    Matrix<int> t=m->operator*(7);
 
 
 
-    ASSERT_EQ(t->buffer[3],21);
-    ASSERT_EQ(t->buffer[2],14);
+    ASSERT_EQ(t.buffer[3],21);
+    ASSERT_EQ(t.buffer[2],14);
 
 
 
@@ -151,7 +152,7 @@ TEST(Matrix8, scalarProduct){
 
 TEST(Matrix9, printMatrix){
 
-    int* s =new int[6];
+    int s[6];
     s[0]=0;
     s[1]=1;
     s[2]=2;
