@@ -15,12 +15,18 @@ public:
     T* buffer;
     int numCol,numRow;
 
-    Matrix (int m,int n){
+    Matrix (int m,int n):numRow(m),numCol(n){
+        buffer =new T[m*n];
+        for(int i=0;i<m*n;i++)
+            buffer[i]=0;
+
+    }
+
+    Matrix (int m,int n, T* s):numRow(m),numCol(n){
 
         buffer =new T[m*n];
 
-        numCol=n;
-        numRow=m;
+        initMatrix(s);
     };
 
     ~Matrix(){
@@ -30,14 +36,14 @@ public:
 
     void setValue(T t,int m,int n){
 
-        if (m >= numRow || n >= numCol) {
+        if ((m<0 || m >= numRow) || (n<0 || n >= numCol)) {
             throw std::invalid_argument("Out of index");  //Esempio di gestione di eccezioni nel main
         }
 
         buffer[m*numCol+n]=t;
     }
 
-
+private:
     void initMatrix(T* s){
         for(int i=0;i<numRow;i++){
             for (int j=0;j<numCol;j++){
@@ -46,9 +52,9 @@ public:
 
         }
     }
-
+public:
     T getValue(int m,int n){
-        if(m>=numRow||n>=numCol){
+        if((m<=0 || m >= numRow) || (n<0 || n >= numCol)){
             throw std::invalid_argument("Out of index");
 
         }
@@ -56,7 +62,7 @@ public:
     }
 
     T* selectRow(int m){
-        if(m>=numRow){
+        if(m<0 || m>=numRow){
             throw std::invalid_argument("Out of index");
 
         }
@@ -68,7 +74,7 @@ public:
     }
 
     T* selectCol(int n){
-        if(n>=numCol){
+        if(n<0 || n>=numCol){
             throw std::invalid_argument("Out of index");
         }
         T* col=new T[numRow];
@@ -88,7 +94,7 @@ public:
         return trasp;
     }
 
-    Matrix<T>* product(Matrix<T>* matrix){
+     Matrix<T>* operator *(Matrix<T>* matrix){
         if(numCol!=matrix->numRow){
             throw std::invalid_argument("Matrix dimension not right to do product");
         }
@@ -107,7 +113,7 @@ public:
 
     }
 
-    Matrix<T>* sumMatrix(Matrix<T>* m1){
+    Matrix<T>* operator + (Matrix<T>* m1){
         if(m1->numCol!=this->numCol || m1->numRow!= this->numRow)
             throw std::invalid_argument("Impossible to do sumMatrix");
         Matrix<T>* sum=new Matrix(numCol,numRow);
@@ -118,7 +124,7 @@ public:
         return sum;
     }
 
-    Matrix<T>* scalarProduct(T scalar){
+    Matrix<T>* operator* (T scalar){
         Matrix<T>* s=new Matrix(numCol,numRow);
         for(int i=0;i<numRow;i++){
             for(int j=0;j<numCol;j++)
