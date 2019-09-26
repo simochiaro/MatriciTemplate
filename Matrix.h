@@ -34,7 +34,7 @@ public:
     };
 
 
-    const void setValue(T t,int m,int n){
+    void setValue(T t,int m,int n){
 
         if ((m<0 || m >= numRow) || (n<0 || n >= numCol)) {
             throw std::invalid_argument("Out of index");  //Esempio di gestione di eccezioni nel main
@@ -53,7 +53,7 @@ private:
         }
     }
 public:
-    const T getValue(int m,int n){
+     T getValue(int m,int n) const {
         if((m<=0 || m >= numRow) || (n<0 || n >= numCol)){
             throw std::invalid_argument("Out of index");
 
